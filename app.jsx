@@ -83,6 +83,10 @@ class Model {
 		this.time = 0;
 		this.inform();
 	}
+	stopTime(e){
+		clearInterval(this.t);
+		this.inform();
+	}
 }
 
 const Header = (props) => {
@@ -110,6 +114,7 @@ const Header = (props) => {
 				</div>
 				<div>
 					<button onClick={(e) => {props.model.startTime()}}><strong>START</strong></button>
+					<button onClick={(e) => {props.model.stopTime()}}><strong>STOP</strong></button>
 					<button onClick={(e) => {props.model.resetTime()}}><strong>RESET</strong></button>
 				</div>
 			</div>
