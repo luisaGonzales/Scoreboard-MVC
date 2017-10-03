@@ -19,6 +19,7 @@ let players = [
 class Model {
 	constructor(){
 		this.render = undefined;
+		this.players = players;
 	}
 	suscribe(render){
 		this.render = render;
@@ -44,14 +45,16 @@ const Header = (props) => {
 		<div className="header">
 			<div className="stats">
 				<table>
-					<tr>
-						<td>Player: </td>
-						<td className="letter"><strong>{props.players.length}</strong></td>
-					</tr>
-					<tr>
-						<td>Total Points: </td>
-						<td className="letter"><strong>{props.model.sumScore(props.players)}</strong></td>
-					</tr>
+					<tbody>
+						<tr>
+							<td>Player: </td>
+							<td className="letter"><strong>{props.model.players.length}</strong></td>
+						</tr>
+						<tr>
+							<td>Total Points: </td>
+							<td className="letter"><strong>{props.model.sumScore(props.model.players)}</strong></td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 			<h1><strong>{props.title}</strong></h1>
@@ -70,8 +73,28 @@ const Header = (props) => {
 } 
 
 const PlayerList = (props) => {
-  return (
-	  <div>{showPlayers(props.players)}</div> 
+	const allPlayers = props.model.players.map((player, index)=>{
+		return (
+			<div className="player">
+				<div className="player-name">
+					<center><strong>{player.name}</strong></center> 
+				</div>
+				<div className="player-score counter">
+					<div className="counter-action decrement">
+						-
+					</div>
+					<div className="counter-score">
+						{player.score}
+					</div>
+					<div className=" counter-action increment">
+						+
+					</div>
+				</div>
+			</div>
+		);
+	  });
+	return (
+	  <div>{allPlayers}</div> 
   );
 }
 
@@ -80,49 +103,26 @@ const PlayerForm = (props) => {
 	<div className="add-player-form">
 		<form>
 			<input type="text"placeholder="ENTER A NAME"/>
-			<input type="submit" value="ADD PLAYER" onClick={(e) => {añadirPlayer(e)}}/>
+			<input type="submit" value="ADD PLAYER"/>
 		</form>
 	</div>
   );
 }
 
-function showPlayers (players){
-  return players.map((player, index)=>{
-	return (
-		<div className="player">
-			<div className="player-name">
-				<center><strong>{player.name}</strong></center> 
-			</div>
-			<div className="player-score counter">
-				<div className="counter-action decrement">
-					-
-				</div>
-				<div className="counter-score">
-					{player.score}
-				</div>
-				<div className=" counter-action increment">
-					+
-				</div>
-			</div>
-		</div>
-	);
-  });
-}
-
 let model = new Model();
 
-const Application = ({title, players, model}) => {
+const Application = ({title, model}) => {
    return (
 	 <div className="scoreboard">
-		<Header players={players} title={title} model={model}/>
-		<PlayerList players={players} model={model}/>
-		<PlayerForm model={model} players={players}/>
+		<Header title={title} model={model}/>
+		<PlayerList model={model}/>
+		<PlayerForm model={model}/>
 	  </div>      
    );
 }
 
 let render = () => {
-	ReactDOM.render(<Application title="Scoreboard" players = {players} model={model}/>, document.getElementById('container'));
+	ReactDOM.render(<Application title="Scoreboard" model={model}/>, document.getElementById('container'));
 };
 
 model.suscribe(render);
