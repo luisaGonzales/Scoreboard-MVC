@@ -50,6 +50,18 @@ class Model {
 		});
 		this.inform();
 	}
+	decrement(player){
+		let pos = player.target.id;
+		if(this.players[pos].score > 0){
+			this.players[pos].score = this.players[pos].score - 1
+		}
+		this.inform();
+	}
+	increment(player){
+		let pos = player.target.id;
+		this.players[pos].score = this.players[pos].score + 1
+		this.inform();
+	}
 }
 
 const Header = (props) => {
@@ -92,13 +104,13 @@ const PlayerList = (props) => {
 					<center><strong>{player.name}</strong></center> 
 				</div>
 				<div className="player-score counter">
-					<div className="counter-action decrement">
+					<div className="counter-action decrement" id={index} onClick={e => {props.model.decrement(e)}}>
 						-
 					</div>
 					<div className="counter-score">
 						{player.score}
 					</div>
-					<div className=" counter-action increment">
+					<div className=" counter-action increment" id={index} onClick={e => {props.model.increment(e)}} >
 						+
 					</div>
 				</div>
@@ -116,6 +128,7 @@ const PlayerForm = (props) => {
 		<form onSubmit={e => {
 			e.preventDefault();
 			props.model.addPlayer(props.model.inputValue);
+			props.model.inform();
 		}}>
 			<input onChange={e => (props.model.inputValue = e.target.value)} type="text"placeholder="ENTER A NAME" />
 			<input type="submit" value="ADD PLAYER"/>
