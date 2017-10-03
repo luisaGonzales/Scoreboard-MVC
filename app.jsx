@@ -67,6 +67,9 @@ class Model {
 		this.inputValue = e.target.value;
 		this.inform();
 	}
+	timer(){
+		
+	}
 }
 
 const Header = (props) => {
