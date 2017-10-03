@@ -64,6 +64,11 @@ class Model {
 		this.players[pos].score = this.players[pos].score + 1
 		this.inform();
 	}
+	delete(e){
+		let pos = e.target.id;
+		this.players.splice(pos, 1);
+		this.inform();
+	}
 	onChange(e){
 		this.inputValue = e.target.value;
 		this.inform();
@@ -126,7 +131,7 @@ const PlayerList = (props) => {
 	const allPlayers = props.model.players.map((player, index)=>{
 		return (
 			<div className="player" key={player.id}>
-				<div className="player-name">
+				<div className="player-name" id={index} onDoubleClick={e => {props.model.delete(e)}}>
 					<center><strong>{player.name}</strong></center> 
 				</div>
 				<div className="player-score counter">
