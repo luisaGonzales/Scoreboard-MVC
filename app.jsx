@@ -48,7 +48,7 @@ class Model {
 			score: 0,
 			id: Utils.uuid()
 		});
-
+		this.inform();
 	}
 }
 
