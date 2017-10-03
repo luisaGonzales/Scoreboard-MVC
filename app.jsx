@@ -21,7 +21,8 @@ class Model {
 		this.render = undefined;
 		this.players = players;
 		this.inputValue = "";
-		console.log(this.players);
+		this.time = 0;
+		this.t = undefined;
 	}
 	suscribe(render){
 		this.render = render;
@@ -68,7 +69,19 @@ class Model {
 		this.inform();
 	}
 	timer(){
-		
+		this.time = this.time + 1;
+		this.inform();
+	}
+	startTime(e){
+		this.t = setInterval(
+			() => {this.timer()}, 1000
+	  )
+	this.inform();
+	}
+	resetTime(e){
+		clearInterval(this.t);
+		this.time = 0;
+		this.inform();
 	}
 }
 
@@ -93,11 +106,11 @@ const Header = (props) => {
 			<div className="stopwatch">
 				<h2>STOPWATCH</h2>
 				<div className="stopwatch-time">
-					0
+					{props.model.time}
 				</div>
 				<div>
-					<button><strong>START</strong></button>
-					<button><strong>RESET</strong></button>
+					<button onClick={(e) => {props.model.startTime()}}><strong>START</strong></button>
+					<button onClick={(e) => {props.model.resetTime()}}><strong>RESET</strong></button>
 				</div>
 			</div>
 		</div>
