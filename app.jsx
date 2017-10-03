@@ -48,6 +48,8 @@ class Model {
 			score: 0,
 			id: Utils.uuid()
 		});
+		// props.model.inputValue = e.target.value
+		console.log(player.target.value);
 		this.inform();
 	}
 	decrement(player){
@@ -130,7 +132,7 @@ const PlayerForm = (props) => {
 			props.model.addPlayer(props.model.inputValue);
 			props.model.inform();
 		}}>
-			<input onChange={e => (props.model.inputValue = e.target.value)} type="text"placeholder="ENTER A NAME" />
+			<input onChange={e => {(props.model.inputValue = e.target.value)}} type="text"placeholder="ENTER A NAME" />
 			<input type="submit" value="ADD PLAYER"/>
 		</form>
 	</div>
