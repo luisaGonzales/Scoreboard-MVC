@@ -20,7 +20,7 @@ class Model {
 	constructor(){
 		this.render = undefined;
 		this.players = players;
-		this.inputValue = null;
+		this.inputValue = "";
 		console.log(this.players);
 	}
 	suscribe(render){
@@ -48,8 +48,7 @@ class Model {
 			score: 0,
 			id: Utils.uuid()
 		});
-		// props.model.inputValue = e.target.value
-		console.log(player.target.value);
+		this.inputValue = "";
 		this.inform();
 	}
 	decrement(player){
@@ -62,6 +61,10 @@ class Model {
 	increment(player){
 		let pos = player.target.id;
 		this.players[pos].score = this.players[pos].score + 1
+		this.inform();
+	}
+	onChange(e){
+		this.inputValue = e.target.value;
 		this.inform();
 	}
 }
@@ -132,7 +135,7 @@ const PlayerForm = (props) => {
 			props.model.addPlayer(props.model.inputValue);
 			props.model.inform();
 		}}>
-			<input onChange={e => {(props.model.inputValue = e.target.value)}} type="text"placeholder="ENTER A NAME" />
+			<input onChange={(e) => {props.model.onChange(e)}} value={props.model.inputValue} type="text"placeholder="ENTER A NAME" />
 			<input type="submit" value="ADD PLAYER"/>
 		</form>
 	</div>
