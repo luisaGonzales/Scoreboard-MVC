@@ -2,17 +2,17 @@ let players = [
 	{
 		name: "Jim Hoskins",
 		score: 31,
-		id: 1,
+		id:  Utils.uuid()
 	},
 	{
 		name: "Andree Hoskins",
 		score: 35,
-		id: 2,
+		id:  Utils.uuid()
 	},
 	{
 		name: "Alena Hoskins",
 		score: 42,
-		id: 3,
+		id:  Utils.uuid()
 	},
 ];
 
@@ -20,6 +20,8 @@ class Model {
 	constructor(){
 		this.render = undefined;
 		this.players = players;
+		this.inputValue = null;
+		console.log(this.players);
 	}
 	suscribe(render){
 		this.render = render;
@@ -31,12 +33,22 @@ class Model {
 		return players.map((player) =>{
 			return (player.score);
 		});
+		this.inform()
 	}
 	sumScore (players){
 		let scores = this.getScores(players);
 		return scores.reduce((prev,current) =>{
 			return prev + current;
 		},0);
+		this.inform();
+	}
+	addPlayer(player){
+		this.players.push({
+			name: player,
+			score: 0,
+			id: Utils.uuid()
+		});
+
 	}
 }
 
@@ -75,7 +87,7 @@ const Header = (props) => {
 const PlayerList = (props) => {
 	const allPlayers = props.model.players.map((player, index)=>{
 		return (
-			<div className="player">
+			<div className="player" key={player.id}>
 				<div className="player-name">
 					<center><strong>{player.name}</strong></center> 
 				</div>
@@ -101,8 +113,11 @@ const PlayerList = (props) => {
 const PlayerForm = (props) => {
   return (
 	<div className="add-player-form">
-		<form>
-			<input type="text"placeholder="ENTER A NAME"/>
+		<form onSubmit={e => {
+			e.preventDefault();
+			props.model.addPlayer(props.model.inputValue);
+		}}>
+			<input onChange={e => (props.model.inputValue = e.target.value)} type="text"placeholder="ENTER A NAME" />
 			<input type="submit" value="ADD PLAYER"/>
 		</form>
 	</div>
